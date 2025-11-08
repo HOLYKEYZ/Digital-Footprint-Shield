@@ -1,0 +1,31 @@
+{
+  "google_custom_search": {
+    "api_keys": [
+      {
+        "key": "AIzaSyD3tZ0guKcYWkhuZo7pcDDyLIUCLwN_Ag8",
+        "enabled": true,
+        "description": "Primary API key"
+      }
+    ],
+    "search_engine_id": "5175e4690b2044e7a"
+  },
+  "hibp": {
+    "api_keys": [
+      {
+        "key": "",
+        "enabled": false,
+        "description": "Optional HIBP API key"
+      }
+    ]
+  },
+  "grok": {
+    "api_keys": [
+      {
+        "key": "",
+        "enabled": false,
+        "description": "Optional Grok API key for AI recommendations"
+      }
+    ]
+  }
+}
+
