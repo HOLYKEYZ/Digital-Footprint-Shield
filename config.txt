@@ -1,0 +1,20 @@
+# Digital Footprint Shield Configuration File
+# Add your API keys here or use environment variables
+
+# Google Custom Search API Configuration
+# Get your API key from: https://console.cloud.google.com/
+GOOGLE_API_KEY=AIzaSyD3tZ0guKcYWkhuZo7pcDDyLIUCLwN_Ag8
+
+# Google Custom Search Engine ID (CX)
+# Create a search engine at: https://programmablesearchengine.google.com/
+# In "Sites to search", enter * (asterisk) to search the entire web
+GOOGLE_SEARCH_ENGINE_ID=5175e4690b2044e7a
+
+# HaveIBeenPwned API Key (Optional but recommended for higher rate limits)
+# Get your API key from: https://haveibeenpwned.com/API/Key
+# HIBP_API_KEY=your_hibp_api_key_here
+
+# Grok API Key (Optional - for AI-powered recommendations)
+# Get your API key from: https://x.ai/ or https://docs.x.ai/
+# GROK_API_KEY=your_grok_api_key_here
+
