@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Digital Footprint Shield{% endblock %}</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+    {% block extra_head %}{% endblock %}
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <div class="logo">
+          <span class="shield-icon">🛡️</span>
+          <h1>Digital Footprint Shield</h1>
+        </div>
+        <p class="tagline">Protect Your Privacy</p>
+      </header>
+
+      <main class="main-content">{% block content %}{% endblock %}</main>
+
+      <footer class="footer">
+        <div class="disclaimer">
+          <p><strong>⚠️ Privacy Disclaimer:</strong></p>
+          <p>
+            All scans are local. No data is stored or sent anywhere. Your
+            privacy is our top priority.
+          </p>
+        </div>
+        <p class="copyright">&copy; 2025 Digital Footprint Shield</p>
+      </footer>
+    </div>
+
+    {% block scripts %}{% endblock %}
+  </body>
+</html>
