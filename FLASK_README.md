@@ -16,6 +16,7 @@ The Flask web interface provides a user-friendly web application for Digital Foo
 ## Installation
 
 1. **Install Dependencies**:
+
    ```bash
    pip install -r requirements.txt
    ```
@@ -79,16 +80,19 @@ Digital-Footprint-Shield/
 ## API Endpoints
 
 ### Web Interface
+
 - `GET /` - Home page with input form
 - `POST /scan` - Perform privacy scan (returns JSON or HTML)
 - `GET /results` - Display results page
 
 ### API Endpoints
+
 - `POST /api/scan` - Programmatic API access (returns JSON)
 
 ## Features Preserved
 
 All existing CLI functionality is preserved:
+
 - ✅ Google Custom Search API integration
 - ✅ HaveIBeenPwned API integration
 - ✅ Risk scoring (Public/Sensitive Exposure)
@@ -99,17 +103,21 @@ All existing CLI functionality is preserved:
 ## Troubleshooting
 
 ### Port Already in Use
+
 If port 5000 is already in use, change it in `app.py`:
+
 ```python
 app.run(debug=True, host='0.0.0.0', port=5001)
 ```
 
 ### API Key Errors
+
 - Check `config.txt` for correct API keys
 - Verify Google Custom Search API is enabled
 - Ensure Search Engine ID is correct
 
 ### Import Errors
+
 - Make sure all dependencies are installed: `pip install -r requirements.txt`
 - Verify all Python files are in the same directory
 
@@ -124,4 +132,3 @@ app.run(debug=True, host='0.0.0.0', port=5001)
 ## License
 
 Same as the main Digital Footprint Shield project.
-

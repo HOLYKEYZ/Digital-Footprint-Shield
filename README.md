@@ -44,6 +44,8 @@ Level Meaning
 🟡 Medium Moderate exposure
 🔴 High Sensitive info found
 
+-WHEN PUSHING TO GIT, USE A REBASE FIRST
+
 Created by Ayanda Joseph
 —Author.
 MIT License.

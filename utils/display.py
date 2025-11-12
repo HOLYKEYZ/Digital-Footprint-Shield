@@ -16,7 +16,7 @@ def print_banner():
 {Fore.CYAN}{Style.BRIGHT}
 ╔═══════════════════════════════════════════════════════════════╗
 ║                                                               ║
-║     🛡️  DIGITAL FOOTPRINT SHIELD – Protect Your Privacy  🛡️   ║
+║    🛡️  DIGITAL FOOTPRINT SHIELD – Protect Your Privacy  🛡️   ║
 ║                                                               ║
 ╚═══════════════════════════════════════════════════════════════╝
 {Style.RESET_ALL}

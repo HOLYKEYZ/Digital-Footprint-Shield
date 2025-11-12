@@ -38,8 +38,9 @@ class BreachChecker:
         }
         
         headers = {}
-        if api_key:
-            headers['hibp-api-key'] = api_key
+        # Only add API key if it's provided and not empty
+        if api_key and api_key.strip() and api_key != 'your_hibp_api_key_here':
+            headers['hibp-api-key'] = api_key.strip()
         
         # Check for breaches
         try:
@@ -53,6 +54,15 @@ class BreachChecker:
                 result['total_breaches'] = len(breaches)
             elif response.status_code == 404:
                 # Email not found in breaches - this is good!
+                result['breaches'] = []
+                result['total_breaches'] = 0
+            elif response.status_code == 401:
+                # API key required or invalid
+                if not api_key or not api_key.strip():
+                    print_warning("⚠️  HaveIBeenPwned API v3 requires an API key. Skipping breach check.")
+                    print_info("💡 Get a free API key at: https://haveibeenpwned.com/API/Key")
+                else:
+                    print_warning("⚠️  Invalid HIBP API key. Skipping breach check.")
                 result['breaches'] = []
                 result['total_breaches'] = 0
             else:
@@ -73,6 +83,9 @@ class BreachChecker:
             if response.status_code == 200:
                 result['pastes'] = response.json()
             elif response.status_code == 404:
+                result['pastes'] = []
+            elif response.status_code == 401:
+                # API key required or invalid - already handled in breach check
                 result['pastes'] = []
             else:
                 print_warning(f"⚠️  Paste check returned status {response.status_code}")
