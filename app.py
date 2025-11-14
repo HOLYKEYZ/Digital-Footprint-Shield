@@ -4,7 +4,6 @@ Provides a web interface for privacy scanning.
 """
 
 from flask import Flask, render_template, request, jsonify
-import requests
 import os
 import sys
 from typing import Optional, Tuple
@@ -21,42 +20,39 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(24)
 
 
+class ConfigurationError(Exception):
+    """Raised when required environment variables are missing."""
+    pass
+
+
 def load_api_config() -> Tuple[str, str, Optional[str], Optional[str]]:
     """
-    Load API configuration from gist or local sources.
+    Load API configuration from environment variables only.
+    
+    Returns:
+        Tuple of (google_api_key, google_search_engine_id, hibp_api_key, grok_api_key)
+    
+    Raises:
+        ConfigurationError: If required environment variables are missing
     """
     google_api_key = os.getenv('GOOGLE_API_KEY')
-    google_search_engine_id = os.getenv('GOOGLE_SEARCH_ENGINE_ID')
+    google_search_engine_id = os.getenv('CSE_ID')  # Using CSE_ID as requested
     hibp_api_key = os.getenv('HIBP_API_KEY')
     grok_api_key = os.getenv('GROK_API_KEY')
-
-    # If no API key set, fetch from gist
-    if not google_api_key or not google_search_engine_id:
-        try:
-            gist_url = "https://gist.githubusercontent.com/HOLYKEYZ/8342ec6149ad843313e99126707e926a/raw/gistfile1.txt"
-            response = requests.get(gist_url, timeout=5)
-            if response.status_code == 200:
-                for line in response.text.splitlines():
-                    line = line.strip()
-                    if line.startswith("GOOGLE_API_KEY="):
-                        google_api_key = line.split("=", 1)[1]
-                    elif line.startswith("GOOGLE_SEARCH_ENGINE_ID="):
-                        google_search_engine_id = line.split("=", 1)[1]
-        except Exception as e:
-            print(f"⚠️ Could not fetch keys from gist: {e}")
-
-    # Fallback to local config
-    if not google_api_key or not google_search_engine_id:
-        config_file = os.path.join(os.path.dirname(__file__), 'config.txt')
-        if os.path.exists(config_file):
-            with open(config_file, 'r') as f:
-                for line in f:
-                    line = line.strip()
-                    if line.startswith('GOOGLE_API_KEY='):
-                        google_api_key = line.split('=', 1)[1]
-                    elif line.startswith('GOOGLE_SEARCH_ENGINE_ID='):
-                        google_search_engine_id = line.split('=', 1)[1]
-
+    
+    # Validate required environment variables
+    if not google_api_key:
+        raise ConfigurationError(
+            "GOOGLE_API_KEY environment variable is required. "
+            "Please set it in your environment or Render dashboard."
+        )
+    
+    if not google_search_engine_id:
+        raise ConfigurationError(
+            "CSE_ID environment variable is required. "
+            "Please set it in your environment or Render dashboard."
+        )
+    
     return google_api_key, google_search_engine_id, hibp_api_key, grok_api_key
 
 def format_risk_level(score: int) -> dict:
@@ -130,8 +126,15 @@ def scan():
             else:
                 return render_template('results.html', results=None, error=error_msg), 400
         
-        # Load API configuration
-        google_api_key, google_search_engine_id, hibp_api_key, grok_api_key = load_api_config()
+        # Load API configuration - will raise ConfigurationError if env vars missing
+        try:
+            google_api_key, google_search_engine_id, hibp_api_key, grok_api_key = load_api_config()
+        except ConfigurationError as e:
+            error_msg = str(e)
+            if request.is_json:
+                return jsonify({'error': error_msg}), 500
+            else:
+                return render_template('results.html', results=None, error=error_msg), 500
         
         # Initialize components
         search_engine = SearchEngine(google_api_key, google_search_engine_id)

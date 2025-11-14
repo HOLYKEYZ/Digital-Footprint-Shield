@@ -18,7 +18,6 @@ from search_engine import SearchEngine
 from breach_check import BreachChecker
 from risk_analyzer import RiskAnalyzer
 from privacy_advisor import PrivacyAdvisor
-from api_key_manager import APIKeyManager, get_api_key_for_search
 
 
 def get_user_input() -> Tuple[Optional[str], Optional[str], Optional[str]]:
@@ -60,14 +59,23 @@ def main():
     if not name and not email and not username:
         return
     
-    # Initialize API Key Manager
-    key_manager = APIKeyManager()
-    
-    # Get Google API key & CSE ID dynamically
-    google_api_key, google_search_engine_id = get_api_key_for_search(key_manager)
-    
-    if not google_api_key or not google_search_engine_id:
-        print_warning("⚠️ Google Custom Search unavailable. Web scan will be skipped.")
+    # Load API configuration from environment variables
+    try:
+        google_api_key = os.getenv('GOOGLE_API_KEY')
+        google_search_engine_id = os.getenv('CSE_ID')
+        
+        if not google_api_key:
+            print_danger("❌ Error: GOOGLE_API_KEY environment variable is required.")
+            print_info("💡 Please set GOOGLE_API_KEY in your environment.")
+            return
+        
+        if not google_search_engine_id:
+            print_danger("❌ Error: CSE_ID environment variable is required.")
+            print_info("💡 Please set CSE_ID in your environment.")
+            return
+    except Exception as e:
+        print_danger(f"❌ Error loading configuration: {str(e)}")
+        return
     
     # Initialize components
     search_engine = SearchEngine(google_api_key, google_search_engine_id)
