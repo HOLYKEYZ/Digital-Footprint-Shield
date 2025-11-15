@@ -13,7 +13,10 @@ A privacy-first Python tool that scans your digital footprint using Google’s C
 
 🔒 100% local and private
 
-🖥️ GUI version (Tkinter) coming soon
+💻 Hosted on render for non contibutors or non devs on - https://digital-footprint-shield.onrender.com/
+
+
+FOR CONTRIBUTORS ONLY👇🏾
 
 🧩 Setup
 git clone https://github.com/<your-username>/Digital-Footprint-Shield.git
@@ -22,6 +25,7 @@ pip install -r requirements.txt
 
 Create .env or config.txt:
 
+GROK_API_KEY=your_ai_key
 GOOGLE_API_KEY=your_api_key
 GOOGLE_SEARCH_ENGINE_ID=your_cse_id
 
